@@ -5,282 +5,667 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evgeny — AI Developer & Automation Engineer</title>
     <meta name="description" content="AI Developer building products with Claude Code, ChatGPT, n8n. Telegram bots, Chrome extensions, AI automation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #f5f3ee;
+            --bg2: #edeae2;
+            --bg3: #e5e1d8;
+            --fg: #1a170f;
+            --fg2: #4a4639;
+            --fg3: #7a7567;
+            --accent: #b5006a;
+            --yellow: #a07200;
+            --yellow-bg: #f0d060;
+            --green: #3a7a00;
+            --blue: #0066cc;
+            --border: #ccc9bc;
+            --border2: #a8a493;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            font-size: 0.9rem;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px 24px;
+        /* Grain overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.015) 2px,
+                rgba(0,0,0,0.015) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
         }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #00b4d8 0%, #9b5de5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header .tagline {
-            font-size: 1.2rem;
-            color: #888;
-            margin-bottom: 20px;
-        }
-
-        .header .tools {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .tool-tag {
-            font-size: 0.8rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: #1a1a2e;
-            color: #00b4d8;
-            border: 1px solid #00b4d833;
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .contact-links a {
-            color: #888;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .contact-links a:hover { color: #00b4d8; }
-
-        /* Section */
-        .section {
-            margin-bottom: 48px;
-        }
-
-        .section-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #00b4d8;
-            margin-bottom: 24px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #1a1a2e;
-        }
-
-        /* Project cards */
-        .project {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .project:hover {
-            border-color: #00b4d844;
-            transform: translateY(-2px);
-        }
-
-        .project-header {
+        /* Nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            border-bottom: 3px solid var(--yellow);
+            padding: 14px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            z-index: 100;
         }
 
-        .project h3 {
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
             font-size: 1.2rem;
-            color: #fff;
-        }
-
-        .project h3 a {
-            color: #fff;
+            color: var(--fg);
             text-decoration: none;
         }
 
-        .project h3 a:hover { color: #00b4d8; }
+        .nav-logo .accent { color: var(--accent); }
+        .nav-logo .yellow { color: var(--yellow); }
 
-        .badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #9b5de522;
-            color: #9b5de5;
-            border: 1px solid #9b5de533;
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
         }
 
-        .project .desc {
-            color: #999;
-            font-size: 0.95rem;
+        .nav-links a {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--fg);
+            text-decoration: none;
+            padding: 6px 14px;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            border-color: var(--accent);
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 var(--accent);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 5%;
+        }
+
+        /* Hero */
+        .hero {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-prompt {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--yellow);
             margin-bottom: 12px;
         }
 
-        .project .tech {
+        .hero-prompt .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--accent);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .accent { color: var(--accent); }
+        .hero h1 .yellow { color: var(--yellow); }
+
+        .hero-subtitle {
+            border-left: 3px solid var(--yellow);
+            padding-left: 16px;
+            color: var(--fg2);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .btn {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border: 2px solid var(--fg);
+            background: none;
+            color: var(--fg);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 3px 3px 0 var(--fg);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 3px 3px 0 var(--fg);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 2px solid var(--border);
+        }
+
+        .stat {
+            padding: 20px;
+            border-right: 2px solid var(--border);
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--yellow);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--fg3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Projects */
+        .projects-section {
+            background: var(--bg2);
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            padding: 28px;
+            transition: all 0.2s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translate(-3px, -3px);
+            box-shadow: 4px 4px 0 var(--accent);
+        }
+
+        .project-tag {
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--yellow);
+            background: rgba(160, 114, 0, 0.1);
+            padding: 3px 10px;
+            margin-bottom: 12px;
+        }
+
+        .project-tag.new {
+            color: var(--green);
+            background: rgba(58, 122, 0, 0.1);
+        }
+
+        .project-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project-card h3 a {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+        .project-card h3 a:hover { color: var(--accent); }
+
+        .project-card p {
+            font-size: 0.85rem;
+            color: var(--fg2);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
 
         .tech-tag {
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 4px;
-            background: #1a1a2e;
-            color: #aaa;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border: 1px solid var(--border);
+            color: var(--fg3);
+        }
+
+        /* Tools */
+        .tools-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-item {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            color: var(--fg2);
+            transition: all 0.2s;
+        }
+
+        .tool-item:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 var(--yellow);
         }
 
         /* About */
-        .about-text {
-            color: #999;
-            font-size: 1rem;
-            line-height: 1.8;
+        .about-section {
+            background: var(--bg2);
         }
 
-        .about-text strong { color: #e0e0e0; }
+        .about-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-item {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+            align-items: baseline;
+        }
+
+        .about-marker {
+            font-family: 'Fira Code', monospace;
+            color: var(--green);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .about-text {
+            color: var(--fg2);
+            font-size: 0.9rem;
+        }
+
+        .about-text strong { color: var(--fg); }
+
+        /* CTA Banner */
+        .cta-banner {
+            max-width: 700px;
+            margin: 0 auto;
+            border: 3px solid var(--yellow);
+            padding: 48px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-label {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--yellow-bg);
+            color: var(--fg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 20px;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+        }
+
+        .cta-banner h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            margin-bottom: 24px;
+        }
+
+        .cta-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .cta-link {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--fg2);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .cta-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 var(--accent);
+        }
 
         /* Footer */
         .footer {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid #1a1a2e;
-            color: #444;
-            font-size: 0.85rem;
+            border-top: 3px solid var(--yellow);
+            padding: 40px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .footer a {
-            color: #666;
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .footer-logo .accent { color: var(--accent); }
+        .footer-logo .yellow { color: var(--yellow); }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            font-size: 0.8rem;
+            color: var(--fg3);
             text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .footer a:hover { color: #00b4d8; }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* Responsive */
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2rem; }
-            .container { padding: 40px 16px; }
-            .project { padding: 16px; }
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .stat:nth-child(2) { border-right: none; }
+            .nav-links { display: none; }
+            .hero-cta { flex-direction: column; }
+            .btn { width: 100%; text-align: center; }
+            .cta-banner { padding: 36px 24px; }
+            .footer { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .stats { grid-template-columns: 1fr; }
+            .stat { border-right: none; border-bottom: 2px solid var(--border); }
+            .stat:last-child { border-bottom: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
 
-        <!-- Header -->
-        <div class="header">
-            <h1>Evgeny</h1>
-            <p class="tagline">AI Developer & Automation Engineer</p>
-            <div class="tools">
-                <span class="tool-tag">Claude Code</span>
-                <span class="tool-tag">ChatGPT</span>
-                <span class="tool-tag">Gemini</span>
-                <span class="tool-tag">n8n</span>
-                <span class="tool-tag">OpenClaw</span>
-                <span class="tool-tag">OpenRouter</span>
-                <span class="tool-tag">Python</span>
-                <span class="tool-tag">JavaScript</span>
-            </div>
-            <div class="contact-links">
-                <a href="mailto:alfred.rey@icloud.com">alfred.rey@icloud.com</a>
-                <a href="https://github.com/lcr154">GitHub</a>
-                <a href="https://x.com/evg_samokhvalov">Twitter/X</a>
-                <a href="https://t.me/lcr154">Telegram</a>
-                <a href="https://www.linkedin.com/in/evgeniisamokhvalov">LinkedIn</a>
-            </div>
-        </div>
+    <!-- Nav -->
+    <nav class="nav">
+        <a href="#" class="nav-logo"><span class="accent">evgeny</span><span class="yellow">.</span>dev</a>
+        <ul class="nav-links">
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#tools">Tools</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-        <!-- Projects -->
-        <div class="section">
-            <div class="section-title">Projects</div>
-
-            <div class="project">
-                <div class="project-header">
-                    <h3><a href="https://github.com/lcr154/zenmind-bot">ZenMind Bot</a></h3>
-                    <span class="badge">NEW</span>
-                </div>
-                <p class="desc">AI-powered Telegram meditation assistant. Personalized sessions based on mood, goals, and experience level. Dual payment: Telegram Stars + USDT TRC20 crypto. Mood tracking, daily reminders, admin dashboard.</p>
-                <div class="tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">aiogram</span>
-                    <span class="tech-tag">OpenRouter API</span>
-                    <span class="tech-tag">Telegram Stars</span>
-                    <span class="tech-tag">Tron API</span>
-                    <span class="tech-tag">SQLite</span>
-                </div>
-            </div>
-
-            <div class="project">
-                <div class="project-header">
-                    <h3><a href="https://github.com/lcr154/savenet-vpn-bot">SaveNet VPN Bot</a></h3>
-                </div>
-                <p class="desc">Telegram SaaS bot for VPN subscriptions. Automated USDT TRC20 payments with auto-verification, VLESS+Reality VPN provisioning via 3X-UI API, referral program, promo codes, admin panel, auto-expiry. Zero manual intervention.</p>
-                <div class="tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">aiogram</span>
-                    <span class="tech-tag">Tron API</span>
-                    <span class="tech-tag">3X-UI API</span>
-                    <span class="tech-tag">SQLite</span>
-                    <span class="tech-tag">APScheduler</span>
-                </div>
-            </div>
-
-            <div class="project">
-                <div class="project-header">
-                    <h3><a href="https://github.com/lcr154/video-downloader-ext">Video Downloader</a></h3>
-                </div>
-                <p class="desc">Chrome extension (Manifest V3) + Python companion app. Detects videos via 5 interception methods (webRequest, DOM scan, XHR/Fetch hooks, iframe, Content-Type). HLS/DASH streaming, quality selector, real-time progress.</p>
-                <div class="tech">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Chrome MV3</span>
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Flask</span>
-                    <span class="tech-tag">yt-dlp</span>
-                    <span class="tech-tag">ffmpeg</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- About -->
-        <div class="section">
-            <div class="section-title">About</div>
-            <p class="about-text">
-                I'm a <strong>vibe coder</strong> — I build real products using AI tools. Claude Code, ChatGPT, and Gemini are my daily drivers. I ship fast, automate everything, and focus on solving actual problems.
-                <br><br>
-                Before tech, I managed a retail store and trained sales teams — that's where I learned to understand business needs and communicate clearly. Now I apply those skills to building AI-powered automation.
-                <br><br>
-                Based in <strong>Ulsan, South Korea</strong>. Available for <strong>remote work</strong>.
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="hero">
+            <div class="hero-prompt">> building with AI<span class="cursor"></span></div>
+            <h1>I'm Evgeny — <span class="accent">AI Developer</span> & <span class="yellow">Automation Engineer</span></h1>
+            <p class="hero-subtitle">
+                Vibe coder who ships real products using AI tools. I build Telegram bots, browser extensions, and automation workflows. Fast prototyping, crypto payments, API integrations — from idea to working product in days.
             </p>
+            <div class="hero-cta">
+                <a href="https://github.com/lcr154" class="btn btn-primary">View GitHub</a>
+                <a href="mailto:alfred.rey@icloud.com" class="btn">Get in Touch</a>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Products shipped</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">AI tools daily</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Payment systems</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">API integrations</div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p><a href="https://github.com/lcr154">github.com/lcr154</a></p>
+    <!-- Projects -->
+    <section class="projects-section" id="projects">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <div class="section-label reveal">// what I built</div>
+            <div class="section-title reveal">Projects</div>
+            <div class="projects-grid">
+
+                <div class="project-card reveal">
+                    <span class="project-tag new">NEW</span>
+                    <h3><a href="https://github.com/lcr154/zenmind-bot">ZenMind Bot</a></h3>
+                    <p>AI meditation assistant for Telegram. Personalized sessions based on mood & goals. Dual payment: Telegram Stars + USDT crypto. Mood tracking, daily reminders, admin panel.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">aiogram</span>
+                        <span class="tech-tag">OpenRouter</span>
+                        <span class="tech-tag">Stars</span>
+                        <span class="tech-tag">Tron API</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <span class="project-tag">SAAS</span>
+                    <h3><a href="https://github.com/lcr154/savenet-vpn-bot">SaveNet VPN Bot</a></h3>
+                    <p>Telegram SaaS for VPN subscriptions. Auto USDT payments, VLESS+Reality provisioning via 3X-UI API, referral program, promo codes, admin panel. Zero manual work.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">aiogram</span>
+                        <span class="tech-tag">Tron API</span>
+                        <span class="tech-tag">3X-UI</span>
+                        <span class="tech-tag">SQLite</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <span class="project-tag">EXTENSION</span>
+                    <h3><a href="https://github.com/lcr154/video-downloader-ext">Video Downloader</a></h3>
+                    <p>Chrome extension (MV3) + Python companion. 5 video detection methods. HLS/DASH streaming, quality selector, real-time progress. GetCourse, Kinescope, YouTube, Vimeo.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Chrome MV3</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">yt-dlp</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </section>
 
-    </div>
+    <!-- Tools -->
+    <section id="tools">
+        <div class="tools-section">
+            <div class="section-label reveal">// daily drivers</div>
+            <div class="section-title reveal">Tools I Work With</div>
+            <div class="tools-grid reveal">
+                <span class="tool-item">Claude Code</span>
+                <span class="tool-item">ChatGPT</span>
+                <span class="tool-item">Gemini</span>
+                <span class="tool-item">Perplexity</span>
+                <span class="tool-item">n8n</span>
+                <span class="tool-item">OpenClaw</span>
+                <span class="tool-item">OpenRouter</span>
+                <span class="tool-item">Python</span>
+                <span class="tool-item">JavaScript</span>
+                <span class="tool-item">Telegram API</span>
+                <span class="tool-item">Tron API</span>
+                <span class="tool-item">Chrome Extensions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <div class="section-label reveal">// who I am</div>
+            <div class="section-title reveal">About</div>
+            <div class="about-item reveal">
+                <span class="about-marker">></span>
+                <span class="about-text"><strong>Vibe coder</strong> — I use AI to build products, not just to chat with it. Claude Code, ChatGPT, and Gemini are my daily tools.</span>
+            </div>
+            <div class="about-item reveal">
+                <span class="about-marker">></span>
+                <span class="about-text"><strong>Builder mindset</strong> — from idea to working product in days. Crypto payments, API integrations, automation workflows — all shipped and running.</span>
+            </div>
+            <div class="about-item reveal">
+                <span class="about-marker">></span>
+                <span class="about-text"><strong>Business background</strong> — managed a retail store, trained sales teams. I understand business needs and communicate clearly.</span>
+            </div>
+            <div class="about-item reveal">
+                <span class="about-marker">></span>
+                <span class="about-text"><strong>Based in Ulsan, South Korea.</strong> Available for remote work worldwide.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact">
+        <div class="cta-banner reveal">
+            <span class="cta-label">LET'S BUILD SOMETHING</span>
+            <h2>Looking for an AI developer who ships?</h2>
+            <div class="cta-links">
+                <a href="mailto:alfred.rey@icloud.com" class="cta-link">Email</a>
+                <a href="https://github.com/lcr154" class="cta-link">GitHub</a>
+                <a href="https://x.com/evg_samokhvalov" class="cta-link">Twitter/X</a>
+                <a href="https://t.me/lcr154" class="cta-link">Telegram</a>
+                <a href="https://www.linkedin.com/in/evgeniisamokhvalov" class="cta-link">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo"><span class="accent">evgeny</span><span class="yellow">.</span>dev</div>
+        <div class="footer-links">
+            <a href="https://github.com/lcr154">GitHub</a>
+            <a href="https://x.com/evg_samokhvalov">Twitter/X</a>
+            <a href="https://t.me/lcr154">Telegram</a>
+            <a href="https://www.linkedin.com/in/evgeniisamokhvalov">LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Scroll reveal -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
 </body>
 </html>
