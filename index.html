@@ -25,6 +25,37 @@
             --border2: #a8a493;
         }
 
+        [data-theme="dark"] {
+            --bg: #0f0e0b;
+            --bg2: #1a1814;
+            --bg3: #24221c;
+            --fg: #e8e4da;
+            --fg2: #b5b0a3;
+            --fg3: #7a7567;
+            --accent: #e0408a;
+            --yellow: #d4a030;
+            --yellow-bg: #3a3010;
+            --green: #5cb830;
+            --blue: #4d9cff;
+            --border: #3a3728;
+            --border2: #4a4639;
+        }
+
+        [data-theme="dark"] body::after {
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.01) 2px,
+                rgba(255,255,255,0.01) 4px
+            );
+        }
+
+        [data-theme="dark"] .cta-label {
+            background: var(--yellow);
+            color: #0f0e0b;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -97,6 +128,25 @@
             border-color: var(--accent);
             transform: translate(-2px, -2px);
             box-shadow: 2px 2px 0 var(--accent);
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: none;
+            border: 2px solid var(--border);
+            color: var(--fg);
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--yellow);
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 var(--yellow);
         }
 
         /* Sections */
@@ -497,6 +547,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">moon</button>
     </nav>
 
     <!-- Hero -->
@@ -654,8 +705,9 @@
         </div>
     </footer>
 
-    <!-- Scroll reveal -->
+    <!-- Scroll reveal + Theme toggle -->
     <script>
+        // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -665,6 +717,28 @@
         }, { threshold: 0.08 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Theme toggle
+        const toggle = document.getElementById('themeToggle');
+        const saved = localStorage.getItem('theme');
+
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            toggle.textContent = 'sun';
+        }
+
+        toggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                toggle.textContent = 'moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                toggle.textContent = 'sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
     </script>
 
 </body>
